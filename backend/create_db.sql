@@ -15,3 +15,5 @@ create table current_state (
 	mode		varchar(10),
 	gain		decimal
 );
+
+insert into current_state VALUES (89.7, "WFM", 0)
