@@ -4,9 +4,9 @@ drop table if exists current_state;
 create table nodes (
 	  id                        integer primary key AUTOINCREMENT,
 	  name		                varchar(255),
-	  lat	                    decimal,
-	  lon	                    decimal,
-	  heading	                decimal,
+	  lat	                    decimal DEFAULT 0,
+	  lon	                    decimal DEFAULT 0,
+	  heading	                decimal DEFAULT 0,
 	 UNIQUE(name)
 );
 
