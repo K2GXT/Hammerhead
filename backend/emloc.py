@@ -50,7 +50,7 @@ def register():
 @app.route('/freq', methods=['GET','POST'])
 def freq():
 	if request.method == 'GET':
-		return jsonify(query_db("SELECT freq from current_state")[0])
+		return jsonify(query_db("SELECT freq from current_state WHERE id=1")[0])
 	if request.method == 'POST':
 		if request.form['freq']:
 			query = """UPDATE current_state
@@ -62,24 +62,29 @@ def freq():
 @app.route('/mode', methods=['GET','POST'])
 def mode():
 	if request.method == 'GET':
-		return mode
+		return jsonify(query_db("SELECT mode from current_state WHERE id=1")[0])
 	if request.method == 'POST':
 		if request.form['mode']:
-			mode = request.form['mode']
+			query = """UPDATE current_state
+			SET mode = ? WHERE id=1 """
+			query_db(query, (request.form['mode'],))
+			return "success"
 
 @app.route('/gain', methods=['GET','POST'])
 def gain():
 	if request.method == 'GET':
-		return gain
+		return jsonify(query_db("SELECT gain from current_state WHERE id=1")[0])
 	if request.method == 'POST':
 		if request.form['gain']:
-			gain = request.form['gain']
+			query = """UPDATE current_state
+			SET gain = ? WHERE id=1 """
+			query_db(query, (request.form['gain'],))
+			return "success"
 
 @app.route('/ping', methods=['GET'])
 def ping():
 	if request.method == 'GET':
-		#return jsonify(frequency=freq, gain=gain, mode=mode)
-		return "ok"
+		return jsonify(query_db("SELECT * from current_state WHERE id=1")[0])
 
 @app.errorhandler(500)
 def internal_error(error):
