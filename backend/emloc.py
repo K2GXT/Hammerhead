@@ -86,6 +86,32 @@ def ping():
 	if request.method == 'GET':
 		return jsonify(query_db("SELECT * from current_state WHERE id=1")[0])
 
+@app.route('/heading', methods=['POST'])
+def heading():
+	if request.method == 'POST':
+		name = request.form['name']
+		heading = request.form['heading']
+		query = """UPDATE nodes
+				SET heading = ?
+				WHERE name= ?"""
+		query_db(query, (heading, name))
+		return "success"
+
+@app.route('/current', methods=['GET'])
+def current():
+	if request.method == 'GET':
+		rtrn =  query_db("SELECT * from nodes")
+		return jsonify(current=rtrn)
+
+
+@app.route('/delete', methods=['POST'])
+def delete():
+	if request.method == 'POST':
+		name = request.form['name']
+		query = """ DELETE from nodes where name = ? """
+		query_db(query, (name,))
+		return "success"
+
 @app.errorhandler(500)
 def internal_error(error):
 	print error
