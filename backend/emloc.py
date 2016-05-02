@@ -35,21 +35,6 @@ def init_db():
 			db.cursor().executescript(f.read())
 		db.commit()
 
-class Node:
-	def __init__(self, secret):
-		self.secret = secret
-		self.location = {"lat":0, "lon":0}
-
-	def setLocation(self, lat, lon):
-		self.location["lat"] = lat
-		self.location["lon"] = lon
-
-def findNode(secret):
-	for node in nodes:
-		if node.secret == secret:
-			return node
-	return null
-
 @app.route('/register', methods=['POST'])
 def register():
 	if request.method == 'POST':
@@ -59,25 +44,20 @@ def register():
 			lon = request.form['lon']
 			query = """INSERT INTO nodes(name, lat, lon)
 			values (?, ?, ?)"""
-
 			query_db(query, (name, lat, lon))
-	return 'woo'
-
-@app.route('/loc', methods=['POST'])
-def loc():
-	if request.method == 'POST':
-		node = findNode(request.form['secret'])
-		if node:
-			node.lat = request.form['lat']
-			node.lon = request.form['lon']
+			return "success"
 
 @app.route('/freq', methods=['GET','POST'])
 def freq():
 	if request.method == 'GET':
-		return freq
+		return jsonify(query_db("SELECT freq from current_state")[0])
 	if request.method == 'POST':
 		if request.form['freq']:
-			freq = request.form['freq']
+			query = """UPDATE current_state
+			SET freq = ? WHERE id=1 """
+			query_db(query, (request.form['freq'],))
+			return "success"
+
 
 @app.route('/mode', methods=['GET','POST'])
 def mode():

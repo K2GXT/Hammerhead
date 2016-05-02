@@ -11,9 +11,10 @@ create table nodes (
 );
 
 create table current_state (
+	id			integer primary key AUTOINCREMENT,
 	freq		decimal,
 	mode		varchar(10),
 	gain		decimal
 );
 
-insert into current_state VALUES (89.7, "WFM", 0)
+insert into current_state VALUES (1, 89.7, "WFM", 0)
