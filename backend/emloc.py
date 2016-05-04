@@ -44,7 +44,10 @@ def register():
 			lon = request.form['lon']
 			query = """INSERT INTO nodes(name, lat, lon)
 			values (?, ?, ?)"""
-			query_db(query, (name, lat, lon))
+                        try:
+			    query_db(query, (name, lat, lon))
+                        except:
+                            return "already registered"
 			return "success"
 
 @app.route('/freq', methods=['GET','POST'])
