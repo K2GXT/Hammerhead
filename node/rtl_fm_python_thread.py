@@ -34,7 +34,7 @@ def rtl_fm_thread(args):
 		sleep(1)
 	rtl_fm_finish()
 
-def make_rtl_fm_thread(args=sys.argv[1:],block=False):
+def make_rtl_fm_thread(args=sys.argv[2:],block=False):
 	t = Thread(target=rtl_fm_thread,args=(args,))
 	t.daemon=True
 	t.start()

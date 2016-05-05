@@ -15,18 +15,18 @@ while len(order) != len(pins):
 			if n not in order:
 				pass
 	for n in pins:
-		if not gpio.input(n):
-			if n not in order:
-				order.append(n)
+	    if not gpio.input(n):
+                if n not in order:
+                    order.append(n)
 
 currentDegInput = float(input("Stop input, type in degrees: "))
 
 currentDeg = 0
 currentDegIndex = 0
 for n in pins:
-	if not gpio.input(n):
-		currentDeg = n
-		currentDegIndex = order.index(n)
+    if not gpio.input(n):
+        currentDeg = n
+        currentDegIndex = order.index(n)
 
 countBack = 0
 while currentDegInput > 0:
