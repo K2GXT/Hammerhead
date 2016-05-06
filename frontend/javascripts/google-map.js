@@ -32,9 +32,10 @@ function reqListener(){
 	if(this.responseText != oldresponse){
 		oldresponse = this.responseText; 
 		var data = JSON.parse(this.responseText); 
-		var source = getCoordinates(data.current);
-		points.push(new google.maps.LatLng(source.x, source.y));
+		getCoordinates(data.current);
 		if(points.length > 500){
+			points.shift(); 
+			points.shift(); 
 			points.shift(); 
 		}
 		var heatmap = new google.maps.visualization.HeatmapLayer({
@@ -46,19 +47,29 @@ function reqListener(){
 }
 
 function getCoordinates(data){
-	var x0 = data[0].lat; 
-	var y0 = data[0].lon; 
+	var point1 = getPoint(data[0], data[1]); 
+	var point2 = getPoint(data[1], data[2]); 
+	var point3 = getPoint(data[0], data[2]); 
+	point1 = new google.maps.LatLng(point1.x, point1.y); 
+	point2 = new google.maps.LatLng(point2.x, point2.y); 
+	point3 = new google.maps.LatLng(point3.x, point3.y); 
+	points.push(point1, point2, point3); 
+}
 
-	var heading0 = data[0].heading; 
+function getPoint(node1, node2){
+	var x0 = node1.lat; 
+	var y0 = node1.lon; 
+
+	var heading0 = node1.heading; 
 
 
 	var x1 = getX(x0, heading0); 
 	var y1 = getY(y0, heading0)
 
-	var x2 = data[1].lat; 
-	var y2 = data[1].lon; 
+	var x2 = node2.lat; 
+	var y2 = node2.lon; 
 
-	var heading2 = data[1].heading; 
+	var heading2 = node2.heading; 
 
 	var x3 = getX(x2, heading2); 
 	var y3 = getY(y2, heading2); 
