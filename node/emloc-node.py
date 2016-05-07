@@ -8,7 +8,7 @@ make_rtl_fm_thread(block=False)
 
 gpio.setmode(gpio.BOARD)
 
-serverURL = "http://kc2tnr.student.rit.edu:5000/"
+serverURL = "http://k2gxt.rit.edu:5000/"
 
 settings = []
 f = open(sys.argv[1], 'r')
